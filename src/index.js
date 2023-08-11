@@ -1,20 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { hydrateRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const dehydratedState = window.__REACT_QUERY_STATE__;
+
+const queryClient = new QueryClient();
+
+hydrateRoot(
+  document.getElementById('root'),
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={dehydratedState}>
+          <App />
+        </Hydrate>
+      </QueryClientProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
