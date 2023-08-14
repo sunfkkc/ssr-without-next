@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+const Users = lazy(() => import('./Users'));
 
 function Peng() {
-  return <img alt="pengsu" src="/peng.jpg" />;
+  return (
+    <div>
+      <img alt="pengsu" src="/peng.jpg" />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Users />
+      </Suspense>
+    </div>
+  );
 }
 
 export default Peng;
